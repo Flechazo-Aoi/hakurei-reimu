@@ -1,12 +1,56 @@
+
 ---
-title: test
-date: 2022-11-15 18:34:43
+title: test # 文章名称
+date: 2022-11-16 13:52:46 # 文章发布日期
+updated: 2022-11-20 15:52:46 # 文章更新日期
+categories: 
+- hexo博客搭建与魔改
+- 数据结构与算法
+- 计算机基础
+- java
+- 数据库
+- 前端
+tags: 
+- test
+- learn
 ---
 
-# 测试
-###1.测试第一段
-这是测试内容
-###2.测试第二段
-这是测试内容
-###3.测试第三段
-这是测试内容
+# h1测试
+hanser
+<img src="https://hanser373.oss-cn-beijing.aliyuncs.com/blog/hanser.jpg"/>
+## h2测试
+在文章的front-matter里写sticky: 3可以置顶一写文章，数字越小  越靠前
+```js
+function changeColor() {
+    // 仅夜间模式才启用
+    if (document.getElementsByTagName('html')[0].getAttribute('data-theme') == 'dark') {
+        if (document.getElementById("site-name"))
+            document.getElementById("site-name").style.textShadow = arr[idx] + " 0 0 15px";
+        if (document.getElementById("site-title"))
+            document.getElementById("site-title").style.textShadow = arr[idx] + " 0 0 15px";
+        if (document.getElementById("site-subtitle"))
+            document.getElementById("site-subtitle").style.textShadow = arr[idx] + " 0 0 10px";
+        if (document.getElementById("post-info"))
+            document.getElementById("post-info").style.textShadow = arr[idx] + " 0 0 5px";
+        try {
+            document.getElementsByClassName("author-info__name")[0].style.textShadow = arr[idx] + " 0 0 12px";
+            document.getElementsByClassName("author-info__description")[0].style.textShadow = arr[idx] + " 0 0 12px";
+        } catch {
+
+        }
+        idx++;
+        if (idx == 8) {
+            idx = 0;
+        }
+    }
+```
+hanser
+### h3测试
+hanser
+#### h4测试
+hanser
+##### h5测试
+hanser
+###### h6测试
+hanser
+
