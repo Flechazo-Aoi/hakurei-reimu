@@ -1,10 +1,10 @@
 ---
-title: springboot学习
+title: springboot学习(一):第一个项目以及原理浅析
 categories: java
 tags: springboot
 ---
 
-# 1. 前言
+#  前言
 
 ## 学习历程
 
@@ -50,7 +50,7 @@ Spring Boot 基于 Spring 开发，Spirng Boot 本身并不提供 Spring 框架�
 - 内嵌式容器简化Web项目
 - 没有冗余代码生成和XML配置的要求
 
-# 2.微服务阶段
+# 微服务阶段
 
 ## 单体应用架构
 
@@ -85,7 +85,7 @@ Spring Boot 基于 Spring 开发，Spirng Boot 本身并不提供 Spring 框架�
 - 在分布式中间，进行流式数据计算、批处理，我们有spring cloud data flow
 - spring为我们想清楚了整个从开始构建应用到大型分布式应用全流程方案
 
-# 3.第一个springboot项目
+# 第一个springboot项目
 
 ## 准备工作
 
@@ -202,7 +202,7 @@ server:
 - 在线生成自己想要的图案
 - 将图案复制到banner.txt中
 
-# 4.springboot自动装配原理浅析
+# springboot自动装配原理浅析
 
 ## pom.xml(依赖)
 
