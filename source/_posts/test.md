@@ -7,12 +7,10 @@ categories:
 - hexo博客搭建与魔改
 - 数据结构与算法
 - 计算机基础
-- java
 - 数据库
 - 前端
 tags: 
 - test
-- learn
 ---
 
 # h1测试

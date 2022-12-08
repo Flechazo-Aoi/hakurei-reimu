@@ -1,7 +1,7 @@
 ---
 title: IDEA使用Git管理项目
 date: 2022-11-15 22:21:43
-categories: IDE技巧
+categories: IDEA技巧
 swiper_index: 1
 ---
 

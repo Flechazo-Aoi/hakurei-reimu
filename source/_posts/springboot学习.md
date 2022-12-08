@@ -1,7 +1,10 @@
 ---
 title: springboot学习(一):第一个项目以及原理浅析
 categories: java
-tags: springboot
+tags:
+- springboot
+- 框架
+- 后端
 ---
 
 #  前言

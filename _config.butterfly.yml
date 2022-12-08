@@ -5,8 +5,8 @@
 menu:
   首页: / || fas fa-home
   文章: /archives/ || fas fa-archive
-#  Categories: /categories/ || fas fa-folder-open
-#  列表||fas fa-list || hide:
+  #  Categories: /categories/ || fas fa-folder-open
+  #  列表||fas fa-list || hide:
   音乐: /music/ || fas fa-music
   网址收藏: /link/ || fas fa-link
   留言板: /comments/ || fas fa-envelope-open
@@ -199,8 +199,8 @@ anchor:
 toc:
   post: true # 文章页是否显示 TOC
   page: false # 普通页面是否显示 TOC
-  number: true	 # 是否显示章节数
-  expand: false	# 是否展开 TOC
+  number: true     # 是否显示章节数
+  expand: false    # 是否展开 TOC
   style_simple: true # for post 简洁模式（侧边栏只显示 TOC, 只对文章页有效 ）
 
 post_copyright:
@@ -824,7 +824,8 @@ note:
 # It may contain bugs and unstable, give feedback when you find the bugs.
 # https://github.com/MoOx/pjax
 pjax:
-  enable: false
+  # 音乐播放器切页面不会自动停止
+  enable: true
   exclude:
   # - xxxx
   # - xxxx
@@ -899,12 +900,12 @@ inject:
     - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
     - <link rel="stylesheet" href="/css/progress_bar.css" media="defer" onload="this.media='all'">
   bottom:
-  # - <script src="xxxx"></script>
+    # - <script src="xxxx"></script>
     - <canvas id="universe"></canvas>
     - <script defer src="/js/universe.js"></script>
     - <script defer src="/js/light.js"></script> # 霓虹灯(必须defer否则有时候会不生效)
     - <script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script>
-    - <div class="aplayer no-destroy" data-id="7759294007" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-autoplay="false"> </div>
+    - <div class="aplayer no-destroy" data-id="7759294007" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-autoplay="false" dadata-theme=#E0FFFF data-volume=0.5> </div>
 
 # CDN
 # Don't modify the following settings unless you know how they work
@@ -936,7 +937,7 @@ CDN:
   # algolia_js:
   # algolia_search_v4:
   # instantsearch_v4:
-  # pjax:
+  # pjax
   # gitalk:
   # gitalk_css:
   # blueimp_md5:
@@ -1025,20 +1026,21 @@ categoryBar:
   row: 1 #显示行数，默认两行，超过行数切换为滚动显示
   # descr要与文章设置的categories一致
   message:
-    - descr: hexo博客搭建与魔改
-      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/3.png
-    - descr: 数据结构与算法
-      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/1.png
-    - descr: 计算机基础
-      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/2.png
+    - descr: IDEA技巧
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/6.png
     - descr: java
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/3.png
+    - descr: hexo博客搭建与魔改
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/1.png
+    - descr: 数据结构与算法
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/2.png
+    - descr: 计算机基础
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/0.png
     - descr: 数据库
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/4.png
     - descr: 前端
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/5.png
-    - descr: IDE技巧
-      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/6.png
+
 
   custom_css: https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css
 
@@ -1139,7 +1141,7 @@ gitcalendar:
     name: gitZone
     index: 0
   user: Flechazo-Aoi #git用户名
-  apiurl: 'https://gitcalendar.fomal.cc'	# 这是我的API，最好自己弄一个
+  apiurl: 'https://gitcalendar.fomal.cc'    # 这是我的API，最好自己弄一个
   minheight:
     pc: 280px #桌面端最小高度
     mibile: 0px #移动端最小高度

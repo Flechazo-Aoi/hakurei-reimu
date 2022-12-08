@@ -1,7 +1,10 @@
 ---
 title: springboot学习(二)：web 开发
 categories: java
-tags: springboot
+tags:
+- springboot
+- 框架
+- 后端
 ---
 
 
