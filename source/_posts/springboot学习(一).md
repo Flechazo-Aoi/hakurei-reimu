@@ -7,7 +7,7 @@ tags:
 - 后端
 ---
 
-#  前言
+# 1. 前言
 
 ## 学习历程
 
@@ -53,7 +53,7 @@ Spring Boot 基于 Spring 开发，Spirng Boot 本身并不提供 Spring 框架�
 - 内嵌式容器简化Web项目
 - 没有冗余代码生成和XML配置的要求
 
-# 微服务阶段
+# 2.微服务阶段
 
 ## 单体应用架构
 
@@ -88,7 +88,7 @@ Spring Boot 基于 Spring 开发，Spirng Boot 本身并不提供 Spring 框架�
 - 在分布式中间，进行流式数据计算、批处理，我们有spring cloud data flow
 - spring为我们想清楚了整个从开始构建应用到大型分布式应用全流程方案
 
-# 第一个springboot项目
+# 3.第一个springboot项目
 
 ## 准备工作
 
@@ -205,7 +205,7 @@ server:
 - 在线生成自己想要的图案
 - 将图案复制到banner.txt中
 
-# springboot自动装配原理浅析
+# 4.springboot自动装配原理浅析
 
 ## pom.xml(依赖)
 
@@ -406,6 +406,8 @@ public static final String FACTORIES_RESOURCE_LOCATION = "META-INF/spring.factor
 
 我们在对应lib目录下找到这个文件，所有的自动配置类都在这里
 
+2.7.0版本之后自动配置类的配置位置变化，现在自动配置类需要放到文件`META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`中，该文件中每一行都是一个自动配置类的全路径名，其格式可以参考这个[官方文档](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports)。不过为了保持向后兼容，SpringBoot依然会处理`spring.factories`文件中的自动配置类。
+
 ![image-20221125102915205](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202211251029302.png)
 
 ![image-20221125103432814](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202211251034890.png)
@@ -417,3 +419,428 @@ public static final String FACTORIES_RESOURCE_LOCATION = "META-INF/spring.factor
 ## 总结
 
 springboot的所有自动配置都是在启动时扫描并加载，`META-INF/spring.factories`里有不少自动配置类，但是不一定生效，大多数自动配置类都有一个叫@ConditionalOnXXX的注解，里面条件满足了，自动配置才会生效，我们才可以使用对应方法。
+
+# 5.主启动类
+
+了解一下主启动类怎么运行
+
+## SpringApplication
+
+这个类主要做了以下四件事情：(查看构造器)
+
+- 推断应用的类型是普通的项目还是Web项目
+- 查找并加载所有可用初始化器 ， 设置到initializers属性中
+- 找出所有的应用程序监听器，设置到listeners属性中
+- 推断并设置main方法的定义类，找到运行的主类
+
+## run方法
+
+
+
+![image-20220105134126771](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202211251451079.png)
+
+
+
+# 6.yaml
+
+## springboot配置文件
+
+SpringBoot使用一个全局的配置文件 ， 配置文件名称是固定的(pom.xml里父项目规定的)
+
+- application.properties
+- application.yml
+- application.yaml
+
+配置文件的作用: 修改SpringBoot自动配置的默认值，因为SpringBoot在底层都给我们自动配置好了；
+
+## yaml概述
+
+YAML是 “YAML Ain’t a Markup Language” （YAML不是一种标记语言）的递归缩写。在开发的这种语言时，YAML 的意思其实是：“Yet Another Markup Language”（仍是一种标记语言），**这种语言以数据作为中心，而不是以标记语言为重点！**
+
+以前的配置文件，大多数都是使用xml来配置；比如一个简单的端口配置，我们来对比下yaml和xml
+
+```xml
+<server>
+	<port>8081<port>
+</server>
+```
+
+```yaml
+server：
+	prot: 8081
+```
+
+- .properties文件的形式是k=v(键值对)的形式
+- .yml则是k: v的形式，冒号后面有空格
+
+```yaml
+# k-v键值对
+# 相当于name=hanser
+name: hanser
+
+# 存对象
+student:
+  name: hanser
+  age: 22
+  
+# 行内写法
+student1: {name: hanser,age: 13}
+
+# 数组
+pets:
+  - cat
+  - dog
+  - ppp
+
+# 行内写法
+pets1: [cat,dog,ppp]
+```
+
+注意：
+
+- 字面量(数字，布尔值，字符串)直接写在后面就可以 ， 字符串默认不用加上双引号或者单引号；
+- “ ” 双引号，会转义字符串里面的特殊字符 ， 特殊字符会作为本身想表示的意思；
+- ‘’ 单引号，不会转义特殊字符 ， 特殊字符最终会变成和普通字符一样输出
+
+## 注入配置文件
+
+### yml注入配置文件(推荐)
+
+yaml文件更强大的地方在于，他可以给我们的实体类或者配置类注入值
+
+首先在yml文件中写上要配置的值，注意yml中的名称要和属性的的名称一致
+
+```yaml
+people:
+  name: hanser
+  age: 21
+  happy: false
+  birth: 2001/06/21
+  map: {k1: v1,k2: v2}
+  hobbies:
+    - code
+    - game
+```
+
+之后在对应实体类上加上@ConfigurationProperties，这时会报错，如下图，但是不影响测试
+
+![image-20221125154210313](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202211251542371.png)
+
+如果想削除提示,可以在pom.xml中加入这个依赖
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-configuration-processor</artifactId>
+    <optional>true</optional>
+</dependency>
+```
+
+加入@ConfigurationProperties(prefix = "people")，prefix="yml中的对象名"，注解默认从applacation.yaml里取值
+
+```java
+@Data
+@Component
+@ConfigurationProperties(prefix = "people")
+public class People {
+    private String name;
+    private Integer age;
+    private Boolean happy;
+    private Date birth;
+    private Map map;
+    private List<Object> hobbies;
+}
+```
+
+去测试类里测试，成功打印出信息
+
+```java
+@SpringBootTest
+class SpringbootApplicationTests {
+
+    @Resource
+    private People people;
+    @Test
+    void contextLoads() throws SQLException {
+        System.out.println(people);
+    }
+
+}
+```
+
+此外yml还支持各种形式的占位符
+
+```yaml
+people:
+  name: hanser${random.uuid} # 随机uuid
+  age: ${random.int}  # 随机int
+  happy: false
+  birth: 2001/06/21
+  map: {k1: v1,k2: v2}
+  hobbies:
+    - code
+    - game
+  dog:
+    name: ${people.hello:hanser}_旺财 #如果hello没有那么就hanser_旺财，否者就是hello的值_旺财
+    age: 1
+```
+
+
+
+### 使用.properties文件注入配置(不推荐)
+
+@PropertySource：加载指定的配置文件
+
+我们去在resources目录下新建一个peopel.properties文件
+
+```properties
+name=hanser
+```
+
+注入实体类
+
+```java
+// 定义value值可以自定义properties文件
+@Data
+@Component
+@PropertySource(value = "classpath:person.properties")
+public class Person {
+    //用el表达式取配置文件的值
+    @Value("${name}")
+    private String name;
+}
+```
+
+### 对比
+
+![image-20221125160248774](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202211251602828.png)
+
+- @ConfigurationProperties只需要写一次即可 ， @Value则需要每个字段都添加
+- 松散绑定： 比如我的yml中写的last-name，这个和lastName是一样的，-形式的会自动转化为驼峰命名。这就是松散绑定。
+- JSR303数据校验 ， 这个就是我们可以在字段是增加一层过滤器验证 ， 可以保证数据的合法性
+- 复杂类型封装，yml中可以封装对象 ， 使用value就不支持
+
+所以更推荐使用yml形式
+
+# 7.JSR303检验
+
+使用时，在对应类上加上@Validated注解代表启用数据校验
+
+然后在对应属性上加入规则，规则有下面这个，需要详细查看可以点入引入的规则的包下查看源码
+
+```
+空检查 
+@Null 验证对象是否为null 
+@NotNull 验证对象是否不为null, 无法查检长度为0的字符串 
+@NotBlank 检查约束字符串是不是Null还有被Trim的长度是否大于0,只对字符串,且会去掉前后空格. 
+@NotEmpty 检查约束元素是否为NULL或者是EMPTY.
+
+Booelan检查 
+@AssertTrue 验证 Boolean 对象是否为 true 
+@AssertFalse 验证 Boolean 对象是否为 false
+
+长度检查 
+@Size(min=, max=) 验证对象（Array,Collection,Map,String）长度是否在给定的范围之内 
+@Length(min=, max=) Validates that the annotated string is between min and max included.
+
+日期检查 
+@Past 验证 Date 和 Calendar 对象是否在当前时间之前，验证成立的话被注释的元素一定是一个过去的日期 
+@Future 验证 Date 和 Calendar 对象是否在当前时间之后 ，验证成立的话被注释的元素一定是一个将来的日期 
+@Pattern 验证 String 对象是否符合正则表达式的规则，被注释的元素符合制定的正则表达式，regexp:正则表达式 flags: 指定 Pattern.Flag 的数组，表示正则表达式的相关选项。
+
+数值检查 
+建议使用在Stirng,Integer类型，不建议使用在int类型上，因为表单值为“”时无法转换为int，但可以转换为Stirng为”“,Integer为null 
+@Min 验证 Number 和 String 对象是否大等于指定的值 
+@Max 验证 Number 和 String 对象是否小等于指定的值 
+@DecimalMax 被标注的值必须不大于约束中指定的最大值. 这个约束的参数是一个通过BigDecimal定义的最大值的字符串表示.小数存在精度 
+@DecimalMin 被标注的值必须不小于约束中指定的最小值. 这个约束的参数是一个通过BigDecimal定义的最小值的字符串表示.小数存在精度 
+@Digits 验证 Number 和 String 的构成是否合法 
+@Digits(integer=,fraction=) 验证字符串是否是符合指定格式的数字，interger指定整数精度，fraction指定小数精度。 
+@Range(min=, max=) 被指定的元素必须在合适的范围内 
+@Range(min=10000,max=50000,message=”range.bean.wage”) 
+@Valid 递归的对关联对象进行校验, 如果关联对象是个集合或者数组,那么对其中的元素进行递归校验,如果是一个map,则对其中的值部分进行校验.(是否进行递归验证) 
+@CreditCardNumber信用卡验证 
+@Email 验证是否是邮件地址，如果为null,不进行验证，算通过验证。 
+@ScriptAssert(lang= ,script=, alias=) 
+@URL(protocol=,host=, port=,regexp=, flags=)]()]()
+```
+
+# 8.多环境配置
+
+profile是Spring对不同环境提供不同配置功能的支持，可以通过激活不同的环境版本，实现快速切换环境；
+
+## 多配置文件
+
+我们在主配置文件编写的时候，文件名可以是 application-{profile}.properties/yml , 用来指定多个环境版本；
+
+比如：
+
+- application-test.properties 代表测试环境配置
+- application-dev.properties 代表开发环境配置
+
+但是Springboot并不会直接启动这些配置文件，它**默认使用application.properties主配置文件**；
+
+我们需要通过一个配置来选择需要激活的环境：在主配置文件里加入
+
+```properties
+spring.profiles.active=dev
+```
+
+## yaml的多配置文件
+
+和properties配置文件中一样，但是使用yml去实现不需要创建多个配置文件，更加方便了 !
+
+```yaml
+server:
+  port: 8081
+spring:
+  profiles:
+    active: dev  #代表dev配置文件生效
+    
+# 用三个短横线隔开的代表两个配置文件
+---
+server:
+  port: 8082
+spring:
+  profiles: dev #命名为dev
+    
+---
+server:
+  port: 8083
+spring:
+  profiles: test #命名为test
+
+```
+
+**注意：如果yml和properties同时都配置了端口，并且没有激活其他环境 ， 默认会使用properties配置文件的！**
+
+## 配置文件位置
+
+![image-20221125195110727](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202211251951803.png)
+
+./代表项目目录，且四个位置配置文件的优先级是从上到下递减的，高优先级的配置会覆盖低优先级的配置
+
+# 9.自动配置原理再理解
+
+## 我们能配什么
+
+前面我们知道了springboot是如何进行自动装配的，核心注解是@EnableAutoConfiguration，并且深入到了MATE-INF/spring.factories的一些自动配置类，自动配置类又通过@ConditionalOnXXX注解来确定是否生效，那么以上是Springboot的自动配置，我们怎么能够知道在配置文件里究竟能自定义配置那些东西呢，这就需要我们更深入的进入自动配置类去寻找答案
+
+我们以一个较为简单的HttpEncoding自动配置类作为例子
+
+```java
+// 和@Configuration不太一样，是2.7.0之后的新注解。该注解用于取代@Configuration注解，
+// 用于解析SPI文件META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports中配置的自动配置类。
+@AutoConfiguration
+// 启动指定类的ConfigurationProperties功能；
+// 进入这个ServerProperties查看，将配置文件中对应的值和ServerProperties绑定起来；
+// 并把ServerProperties加入到ioc容器中
+@EnableConfigurationProperties(ServerProperties.class)
+// 这个自动配置类生效的三个条件
+// 判断当前应用是否是web应用，如果是，当前配置类生效
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+// 判断当前项目有没有这个类CharacterEncodingFilter；SpringMVC中进行乱码解决的过滤器；
+@ConditionalOnClass(CharacterEncodingFilter.class)
+// 判断配置文件中是否存在某个配置：spring.http.encoding.enabled；
+// 如果不存在，就把这个属性设置为true
+@ConditionalOnProperty(prefix = "server.servlet.encoding", value = "enabled", matchIfMissing = true)
+public class HttpEncodingAutoConfiguration {
+
+	private final Encoding properties;
+
+	public HttpEncodingAutoConfiguration(ServerProperties properties) {
+		this.properties = properties.getServlet().getEncoding();
+	}
+
+	@Bean
+    // 上下文不存在bean时进行
+	@ConditionalOnMissingBean
+	public CharacterEncodingFilter characterEncodingFilter() {
+		CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
+		filter.setEncoding(this.properties.getCharset().name());
+		filter.setForceRequestEncoding(this.properties.shouldForce(Encoding.Type.REQUEST));
+		filter.setForceResponseEncoding(this.properties.shouldForce(Encoding.Type.RESPONSE));
+		return filter;
+	}
+
+	@Bean
+	public LocaleCharsetMappingsCustomizer localeCharsetMappingsCustomizer() {
+		return new LocaleCharsetMappingsCustomizer(this.properties);
+	}
+
+	static class LocaleCharsetMappingsCustomizer
+			implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory>, Ordered {
+
+		private final Encoding properties;
+
+		LocaleCharsetMappingsCustomizer(Encoding properties) {
+			this.properties = properties;
+		}
+
+		@Override
+		public void customize(ConfigurableServletWebServerFactory factory) {
+			if (this.properties.getMapping() != null) {
+				factory.setLocaleCharsetMappings(this.properties.getMapping());
+			}
+		}
+
+		@Override
+		public int getOrder() {
+			return 0;
+		}
+
+	}
+
+}
+```
+
+
+
+点进ServerProperties中查看,刚点进去就发现了熟悉的@ConfigurationProperties注解，所以首先是server开头的
+
+```java
+@ConfigurationProperties(prefix = "server", ignoreUnknownFields = true)
+```
+
+之后去寻找我们要找的encoding设置
+
+![image-20221125204940442](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202211252049511.png)
+
+![image-20221125204955497](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202211252049545.png)
+
+发现encoding是一个内部类对象servlet的一个属性，所以我们推测yaml的格式应该为
+
+```yaml
+server:
+  servlet:
+    encoding:
+```
+
+![image-20221125205454401](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202211252054456.png)
+
+结果也证明了我们是正确的
+
+## 总结
+
+- XXXAutoConfiguration是一个个的自动配置类
+- 自动配置类根据一个或多个@ConditionalOnXXX注解来判断这个类是否生效
+- 一但这个配置类生效；这个配置类就会给容器中添加各种组件；
+- 这些组件的属性是从对应的properties类中获取的
+- 每一个priperties类又跟配置文件绑定(@ConfigurationProperties)
+- 所有在配置文件中能配置的属性都是在xxxxProperties类中封装着；
+
+**这就是自动装配的原理**！
+
+## 精髓
+
+- SpringBoot启动会加载大量的自动配置类
+- 我们看我们需要的功能有没有在SpringBoot默认写好的自动配置类当中；
+- 我们再来看这个自动配置类中到底配置了哪些组件；（只要我们要用的组件存在在其中，我们就不需要再手动配置了）
+- 给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们只需要在配置文件中指定这些属性的值即可；
+
+## 查看生效的自动配置
+
+在yml文件中debug: true 
+
+即可查看生效的(Positive matches)、未生效的自动配置类(Negative matches)、Exclusions、Unconditional classes
+
