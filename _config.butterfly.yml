@@ -1027,19 +1027,20 @@ categoryBar:
   # descr要与文章设置的categories一致
   message:
     - descr: hexo搭建与魔改
-      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/6.png
-    - descr: 区块链
-      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/3.png
-    - descr: 数据结构与算法
-      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/1.png
-    - descr: 计算机基础
-      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/2.png
-    - descr: 前端
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/0.png
+    - descr: 区块链
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/1.png
+    - descr: 数据结构与算法
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/2.png
+    - descr: IDEA技巧
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/3.png
     - descr: java
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/4.png
-    - descr: IDEA技巧
+    - descr: 计算机基础
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/5.png
+    - descr: 前端
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/6.png
+
 
 
   custom_css: https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css
