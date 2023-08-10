@@ -15,7 +15,7 @@ tags:
 hanser
 <img src="https://hanser373.oss-cn-beijing.aliyuncs.com/blog/hanser.jpg"/>
 ## h2测试
-在文章的front-matter里写sticky: 3可以置顶一写文章，数字越小  越靠前ssss
+在文章的front-matter里写sticky: 3可以置顶一写文章，数字越小  越靠前
 ```js
 function changeColor() {
     // 仅夜间模式才启用
