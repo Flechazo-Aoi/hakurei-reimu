@@ -1,5 +1,5 @@
 ---
-title: java开发规范
+title: java开发规范-编程规约
 categories: 计算机基础
 tags:
 - java
@@ -640,6 +640,8 @@ if(!map.containsKey(key)){
 
 ### 并发处理
 
+
+
 ### 控制语句
 
 1、（S）在一个switch块内，每个case要么通过continue/break/return等来终止，要么注释说明程序将继续执行到哪一个case为止；在一个switch块内，都必须包含一个default语句并且放在最后，即使它什么代码也没有。
@@ -1089,58 +1091,201 @@ public void actuallyDoTheThing() {
 }
 ```
 
-18、（S）
+18、（S）Apache BeanUtils性能较差，可以使用其他方案比如MapStruct，Spring  BeanUtils，Cglib BeanCopier。
 
+19、（S）不能以追加写入的方式将ObjectOutputStream写入文件。
 
-
-## 异常日志
-
-### 异常处理
-
-1、Java 类库中定义的可以通过预检查方式规避的RuntimeException异常不应该通过catch 的方式来处理，`NullPointerException`，`IndexOutOfBoundsException`等等。
-
-```
-说明：无法通过预检查的异常除外，比如，在解析字符串形式的数字时，可能存在数字格式错误，不得不通过catch NumberFormatException来实现。
-```
-
-2、异常捕获后（也就是在try-catch里）不要用来做流程控制，条件控制。
-
-```
-说明：异常设计的初衷是解决程序运行中的各种意外情况，且异常的处理效率比条件判断方式要低很多。
-```
-
-3、catch时请分清稳定代码和非稳定代码，稳定代码指的是无论如何不会出错的代码。对于非稳定代码的catch尽可能进行区分异常类型，再做对应的异常处理。
-
-```
-说明：对大段代码进行try-catch，使程序无法根据不同的异常做出正确的应激反应，也不利于定位问题，这是一种不负责任的表现。
-
-正例：用户注册的场景中，如果用户输入非法字符，或用户名称已存在，或用户输入密码过于简单，在程序上作出分门别类的判断，并提示给用户。
-```
-
-4、捕获异常是为了处理它，不要捕获了却什么都不处理而抛弃之，如果不想处理它，请将该异常抛给它的调用者。最外层的业务使用者，必须处理异常，将其转化为用户可以理解的内容。
-
-5、（S）事务场景中，抛出异常被catch后，如果需要回滚，一定要注意回滚事务。
-
-6、（S）finally块必须对资源对象、流对象进行关闭，有异常也要做try-catch。同时，不要在finally块中使用return。
-
-```
-说明：如果JDK7及以上，可以使用try-with-resources方式。
-并且finally块就是无论如何都会执行到的代码块，try块中的return语句执行成功后，并不马上返回，而是继续执行finally块中的语句，如果此处存在return语句，则在此直接返回，无情丢弃掉try块中的返回点。
-```
+说明：ObjectOutputStream在构造时，首先会将流的头部信息（“AC ED 00 05”）写入到文件中；以追加方式写入文件，会造成头部信息无法解析。
 
 ```java
-private int x = 0;
-public int checkReturn() {
-	try {
-		// x等于1，此处不返回
-		return ++x;
-	} finally {
-		// 返回的结果是2
-		return ++x;
-	}
+FileOutputStream fos;
+ObjectOutputStream oos;
+
+fos = new FileOutputStream(filename);
+oos = new ObjectOutputStream(fos);
+out.writeObject("a");
+out.flush();
+out.close();
+
+// 这里第二个参数true表示追加方式写入，会造成头部信息无法解析，应该为fos = new FileOutputStream(filename);
+fos = new FileOutputStream(filename, true);
+oos = new ObjectOutputStream(fos);
+out.writeObject("b");
+out.flush();
+out.close();
+```
+
+20、（S）正确使用printf 样式的格式字符串。
+
+```java
+反例：
+// %d对应的是整数类型（十进制），而不是字符串
+String.format("The value of my integer is %d", "Hello World");
+正例：
+String.format("The value of my integer is %d", 6);
+```
+
+21、（S）正则表达式应该合格有效。
+
+说明：正则表达式是以边界符号"^"开头，以"$"结尾。如果意外交换"^" 和"$"，那么该表达式则永远无法匹配。
+
+```java
+反例：
+// This can never match because $ and ^ have been switched around
+Pattern.compile("$[a-z]+^"); // Noncompliant
+正例：
+Pattern.compile("^[a-z]+$");
+```
+
+22、（S）"=+"不能代替"+="
+
+说明：在JAVA中，例如+=, -= 或!=会为一个运算符将编译并运行，但是像=+，=-或=！之间没有空格被使用时则会导致规则问题，所以=之后至少有一个空白字符。
+
+23、（S）“Random”对象应该被重用。
+
+说明：每次需要一个随机值时都创建一个新的随机对象是低效的，并且根据JDK的不同可能产生的数字不是随机的。为了提高效率和随机性，请创建一个Random，然后存储并重用它。推荐使用Java中的SecureRandom，SecureRandom提供了比Random更安全和更强的随机数生成器（RNG）。
+
+24、（S）安全随机数种子不应该是可预测的。
+
+说明：java.security.SecureRandom 类提供了一个适用于密码学的强大随机数生成器(RNG)。然而， 用一个常量或另一个可预测的值作为种子会显着削弱它。一般来说， 依靠SecureRandom 实现提供的种子要安全得多。
+
+当使用以下任一种子调用SecureRandom.setSeed() 或SecureRandom(byte[]) 时，此规则会引发问题：
+
+- 常数
+- 系统时间
+
+```java
+反例：
+SecureRandom sr = new SecureRandom();
+sr.setSeed(123456L); // Noncompliant
+int v = sr.next(32);
+sr = new SecureRandom("abcdefghijklmnop".getBytes("us-ascii")); // Noncompliant
+v = sr.next(32);
+正例：
+SecureRandom sr = new SecureRandom();
+int v = sr.next(32);
+```
+
+25、（S）不要使用finalize()命名方法。
+
+说明： 垃圾回收器在对象未被引用后的某个时刻调用Object.finalize()。通常，重载Object.finalize()是个坏主意，因为：
+
+- 垃圾回收器可能不会调用重载。
+- 用户不应该调用Object.finalize()，这会导致混淆。
+
+除此之外，如果一个方法实际上没有覆盖Object.finalize()，那么将其命名为“finalize”是一个糟糕的想法。
+
+```java
+反例：
+public int finalize(int someParameter) {
+	/* ... */
 }
 ```
 
-7、捕获异常与抛异常，必须是完全匹配，或者捕获异常是抛异常的父类，也就是不能存在接不住的情况。
+26、（S）"super.finalize()"应该在"Object.finalize()" 方法的最后调用。
 
-8、
+说明：在Java中，当一个对象不再被引用时，它会被垃圾回收器自动回收。在垃圾回收之前，对象的finalize()方法会被调用，以便在对象被销毁之前执行一些必要的清理操作，例如释放一些系统资源。
+
+当我们重写finalize()方法时，如果有一些父类也需要进行清理操作，那么我们应该在自己的实现中调用父类的finalize()方法。如果我们在子类中最后调用super.finalize()，可以确保在子类中定义的清理操作完成后再进行父类的清理操作。如果我们在子类中先调用super.finalize()，那么父类中的清理操作可能会在子类的清理操作之前执行，而此时子类还可能在使用父类中的资源，这可能会导致错误或未定义的行为。因此，为了确保正确的执行顺序，应该在子类的finalize()方法中最后调用super.finalize()。
+
+```java
+反例：
+protected void finalize() { // Noncompliant; no call to super.finalize();
+	releaseSomeResources();
+}
+
+protected void finalize() {
+	super.finalize(); // Noncompliant; this call should come last
+	releaseSomeResources();
+}
+
+正例：
+protected void finalize() {
+	releaseSomeResources();
+	super.finalize();
+}
+```
+
+27、（S）不应使用不安全的临时文件创建方法。
+
+说明：使用File.createTempFile 作为创建临时目录的第一步会导致竞争条件，并且本质上是不可靠和不安全的。相反，应该使用Files.createTempDirectory (Java 7+)。
+
+当立即执行以下步骤时，此规则会引发问题：
+
+```java
+call to File.createTempFile
+delete resulting file
+call mkdir on the File object
+反例：
+File tempDir;
+tempDir = File.createTempFile("", ".");
+tempDir.delete();
+tempDir.mkdir(); // Noncompliant
+正例：
+Path tempPath = Files.createTempDirectory("");
+File tempDir = tempPath.toFile();
+```
+
+28、（S）用HttpSecurity 方法配置url 应该按照一定的声明顺序。
+
+说明：在HttpSecurity.authorizeRequests() 方法上配置的URL 模式会按照它们声明的顺序考虑。
+
+```java
+反例：
+protected void configure(HttpSecurity http) throws Exception {
+	http.authorizeRequests()
+		.antMatchers("/resources/**", "/signup", "/about").permitAll() // Compliant
+		.antMatchers("/admin/**").hasRole("ADMIN")
+		// Noncompliant; the pattern "/admin/login" should appear before "/admin/**"
+		.antMatchers("/admin/login").permitAll()
+		.antMatchers("/**", "/home").permitAll()
+		// Noncompliant; the pattern "/db/**" should occurs before "/**"
+		.antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')");
+}
+```
+
+```java
+正例：
+protected void configure(HttpSecurity http) throws Exception {
+	http.authorizeRequests()
+		// Compliant
+		.antMatchers("/resources/**", "/signup", "/about").permitAll()
+		.antMatchers("/admin/login").permitAll()
+		.antMatchers("/admin/**").hasRole("ADMIN") // Compliant
+		.antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
+		// Compliant; "/**" is the last one
+		.antMatchers("/**", "/home").permitAll()
+		.and().formLogin().loginPage("/login").permitAll();
+}
+```
+
+29、（S）应使用有效索引调用“PreparedStatement”和“ResultSet”方法。
+
+```java
+反例：
+PreparedStatement ps = con.prepareStatement(
+    "SELECT fname, lname FROM employees where hireDate > ? and salary < ?");
+	ps.setDate(0, date); // 不正确，索引从1开始
+	ps.setDouble(3, salary); // 不正确，只有两个参数，没有第三个
+	ResultSet rs = ps.executeQuery();
+	while (rs.next()) {
+		String fname = rs.getString(0); // 不正确，索引从1开始
+		// ...
+	}
+```
+
+```java
+正例：
+PreparedStatement ps = con.prepareStatement(
+    "SELECT fname, lname FROM employees where hireDate > ? and salary < ?");
+	ps.setDate(1, date);
+	ps.setDouble(2, salary);
+	ResultSet rs = ps.executeQuery();
+	while (rs.next()) {
+		String fname = rs.getString(1);
+		// ...
+	}
+```
+
+
+
