@@ -140,6 +140,30 @@ cover:
     - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/16.jpg
     - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/17.jpg
     - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/18.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/19.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/20.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/21.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/22.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/23.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/24.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/25.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/26.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/27.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/28.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/29.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/30.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/31.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/32.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/33.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/34.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/35.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/36.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/37.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/38.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/39.jpg
+    - https://hanser373.oss-cn-beijing.aliyuncs.com/blog/title_background/40.jpg
+
+
 
 
 # Replace Broken Images (替換無法显示的圖片)
@@ -151,7 +175,7 @@ error_img:
 error_404:
   enable: true
   subtitle: 'Page Not Found'
-  background: https://i.loli.net/2020/05/19/aKOcLiyPl2JQdFD.png
+  background: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/B.jpg
 
 post_meta:
   page: # Home Page
@@ -1028,18 +1052,24 @@ categoryBar:
   message:
     - descr: hexo搭建与魔改
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/0.png
-    - descr: 区块链
+    - descr: 区块链基础
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/1.png
     - descr: 数据结构与算法
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/2.png
-    - descr: IDEA技巧
+    - descr: IDEA使用
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/3.png
-    - descr: java
+    - descr: java基础
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/4.png
     - descr: 计算机基础
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/5.png
-    - descr: 前端
+    - descr: 随笔
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/6.png
+    - descr: 前后端框架、中间件及工具学习
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/7.png
+    - descr: 留空
+      cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/8.png
+    
+
 
 
 
