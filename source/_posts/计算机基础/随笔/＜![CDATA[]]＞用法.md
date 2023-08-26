@@ -1,6 +1,6 @@
 ---
 title: ＜![CDATA[]]＞用法
-categories: mybatis
+categories: 计算机基础
 tags: 
 - mybatis
 - 随笔
