@@ -1,6 +1,6 @@
 ---
 title: java基础部分
-categories: 计算机基础
+categories: java
 tags: 
 - 面试
 - java基础
