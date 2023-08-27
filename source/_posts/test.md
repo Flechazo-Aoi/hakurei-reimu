@@ -6,8 +6,6 @@ categories:
 - hexo博客搭建与魔改
 - 数据结构与算法
 - 留空
-- 前后端框架、中间件及工具学习
-- java基础
   tags: 
 - test
 ---

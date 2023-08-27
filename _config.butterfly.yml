@@ -1052,7 +1052,7 @@ categoryBar:
   message:
     - descr: hexo博客搭建与魔改
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/0.png
-    - descr: 区块链基础
+    - descr: 区块链
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/1.png
     - descr: 数据结构与算法
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/2.png
