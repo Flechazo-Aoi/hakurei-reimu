@@ -1,6 +1,6 @@
 ---
 title: java开发规范-安全规范
-categories: java
+categories: java基础
 tags:
 - java
 - 开发规范

@@ -1,6 +1,6 @@
 ---
 title: springMVC(五)：json
-categories: 前后端框架、中间件及工具学习java
+categories: 前后端框架、中间件及工具学习
 tags:
 - 框架 
 - springMVC

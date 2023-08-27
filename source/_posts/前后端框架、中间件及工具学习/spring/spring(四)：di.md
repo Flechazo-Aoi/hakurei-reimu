@@ -1,6 +1,6 @@
 ---
 title: spring(四)：di
-categories: 前后端框架、中间件及工具学习java
+categories: 前后端框架、中间件及工具学习
 tags:
 - spring
 - 框架 

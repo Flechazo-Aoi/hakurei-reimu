@@ -1,6 +1,6 @@
 ---
 title: java开发规范-异常日志
-categories: java
+categories: java基础
 tags:
 - java
 - 开发规范
