@@ -1050,7 +1050,7 @@ categoryBar:
   row: 1 #显示行数，默认两行，超过行数切换为滚动显示
   # descr要与文章设置的categories一致
   message:
-    - descr: hexo搭建与魔改
+    - descr: hexo博客搭建与魔改
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/0.png
     - descr: 区块链基础
       cover: https://hanser373.oss-cn-beijing.aliyuncs.com/blog/tile_background/1.png
