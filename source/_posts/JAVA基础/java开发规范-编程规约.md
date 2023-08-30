@@ -663,6 +663,8 @@ switch (state) {
 
 2、当switch括号内的变量类型为String并且此变量为外部参数时，必须先进行null判断，下面例子哪个分支都不会进入，会报空指针异常。
 
+![image-20230814201934348](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202308301123875.png)
+
 3、（S）在if/else/for/while/do语句中必须使用大括号，尽管只有一行代码。
 
 4、在高并发场景中，避免使用”等于”判断作为中断或退出的条件
@@ -1033,8 +1035,6 @@ protected void deleteBefore(String whereSql){
 
 13、拼接SQL语句时，前后尽量都添加空格，防止在拼接过程中，出现上一个SQL的结束和下一个SQL开始位置没有空格，造成单词合并的问题。并且为了避免参数值为空时发生的SQL执行错误，SQL拼接参数时应添加单引号。
 
-![image-20230814201934348](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202308142019428.png)
-
 14、编码时经常用到的SQL拼接where条件，减少不必要的1=1的出现。
 
 ```
@@ -1042,8 +1042,6 @@ protected void deleteBefore(String whereSql){
 ```
 
 15、XML中的SQL语句，嵌套查询需要进行缩进，表名的别名定义，使用表名的简写，便于阅读。
-
-![image-20230814201942923](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202308142019048.png)
 
 16、（S）@SpringBootApplication和@ComponentScan不应在默认包中使用。
 

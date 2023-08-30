@@ -92,6 +92,12 @@ NoSuchMethodError呢？二方包在类冲突时，仲裁机制可能导致引入
 
 11、定义时区分unchecked / checked 异常，避免直接抛出new RuntimeException()，更不允许抛出Exception或者Throwable，应使用有业务含义的自定义异常。推荐业界已定义过的自定义异常，如：DAOException / ServiceException等。举例说明：
 
+```java
+catch (Exception ex) {
+    throw new ServiceException("d");
+}
+```
+
 12、对于公司外的http/api开放接口必须使用errorCode；而应用内部推荐异常抛出；跨应用间RPC调用优先考虑使用Result方式，封装success()方法、errorCode、message；而应用内部直接抛出异常即可。
 
 说明：关于RPC方法返回方式使用Result方式的理由：
