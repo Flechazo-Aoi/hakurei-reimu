@@ -1,6 +1,6 @@
 ---
 title: Java equalsIgnoreCase()方法
-categories: java
+categories: 随笔
 tags: 
 - java基础
 ---
