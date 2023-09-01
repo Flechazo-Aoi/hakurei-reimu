@@ -215,6 +215,23 @@ Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /u
 - :q  不保存退出vi，若后面加上!，则为强制退出
 - :wq  保存后退出vi，后面加!，为强制退出
 
+#### vi编辑时出现E325:ATTENTION
+
+当出现这个问题时，是因为由于在编辑该文件的时候异常退出了，因为vim在编辑文件时会创建一个交换文件swap file以保证文件的安全性。
+
+解决这个问题也很简单，首先找到前两行内容
+
+```
+E325: ATTENTION
+Found a swap file by the name "/.local/share/nvim/swap//%home%dev%xuexi%tool%main.c.swp"
+```
+
+然后复制name后面的文件路径，然后删除对应swp文件即可，也就是执行
+
+```bash
+rm /.local/share/nvim/swap//%home%dev%xuexi%tool%main.c.swp
+```
+
 ### 设置开机自启
 
 新建 `/usr/lib/systemd/system/nginx.service` 文件。并进行如下配置
