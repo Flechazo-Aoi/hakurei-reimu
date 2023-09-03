@@ -62,7 +62,7 @@ private String msg;
 
 其效果如下图
 
-
+![image-20230903203424589](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202309032034679.png)
 
 ## @Value
 
