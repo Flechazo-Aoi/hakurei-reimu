@@ -2,7 +2,7 @@
 title: Java equalsIgnoreCase()方法
 categories: 随笔
 tags: 
-  - java基础
+  - java
 ---
 
 `equalsIgnoreCase() `方法用于将字符串与指定的对象比较，不考虑大小写。

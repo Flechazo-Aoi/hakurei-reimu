@@ -194,3 +194,65 @@ public class InitConfigParameter {
 ```
 
 使用`@PostConstruct`注解修饰的init方法就会在Spring容器的启动时自动的执行，其具体实现原理可以参考https://juejin.cn/post/7010017313625735198
+
+## @Retention、@Target
+
+注解`@Target`和`@Retention`可以用来修饰注解，是注解的注解，称为元注解
+
+### @Retention
+
+@Retention作用是定义被它所注解的注解保留多久，一共有三种策略，定义在RetentionPolicy枚举中.
+
+- `RetentionPolicy.SOURCE`：注解只保留在源文件，当Java文件编译成class文件的时候，注解被遗弃；被编译器忽略
+- `RetentionPolicy.CLASS`：注解被保留到class文件，但jvm加载class文件时候被遗弃，这是默认的生命周期
+- `RetentionPolicy.RUNTIME`：注解不仅被保存到class文件中，jvm加载class文件之后，仍然存在
+
+这3个生命周期分别对应于：Java源文件(.java文件) ---> .class文件 ---> 内存中的字节码。
+
+首先要明确生命周期长度 **SOURCE < CLASS < RUNTIME** ，所以前者能作用的地方后者一定也能作用。一般如果需要**在运行时去动态获取注解信息，那只能用 RUNTIME 注解**；如果要**在编译时进行一些预处理操作**，比如生成一些辅助代码（如 [ButterKnife](https://github.com/JakeWharton/butterknife)）**，就用 CLASS注解**；如果**只是做一些检查性的操作**，比如 **@Override** 和 **@SuppressWarnings**，则**可选用 SOURCE 注解**。
+
+### @Target
+
+目标，即该注解可以声明在哪些目标元素之前，也可理解为注释类型的程序元素的种类。
+
+- `ElementType.PACKAGE`：用于描述包。 
+- `ElementType.ANNOTATION_TYPE`：该注解只能声明在一个注解类型前。 
+- `ElementType.TYPE`：用于描述类、接口(包括注解类型) 或enum声明
+- `ElementType.CONSTRUCTOR`：用于描述类的构造器。
+- `ElementType.LOCAL_VARIABLE`：用于描述局部变量。
+- `ElementType.METHOD`：用于描述类的方法。
+- `ElementType.PARAMETER`：用于描述方法参数。
+- `ElementType.FIELD`：用于描述域(一个类的字段前).
+
+### 定义注解
+
+定义注解需使用 @interface关键词 ,并在接口上注明@Rentention(...) 或@Target(...) ，也可以把spring等注解加上来使用
+
+```java
+@Target({ElementType.METHOD, ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface TestAnnotation{
+    //定义final静态属性
+    //定义抽象方法
+}
+```
+
+比如：
+
+```java
+@Target({ElementType.METHOD, ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Transactional(value = "transactionManager", propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+public @interface TestAnnotation{
+ 
+}
+```
+
+注解的使用：
+
+```java
+@TestAnnotation
+public String save(Person person){
+}
+```
+
