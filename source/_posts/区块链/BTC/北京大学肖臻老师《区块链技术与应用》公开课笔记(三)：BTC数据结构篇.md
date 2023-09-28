@@ -1,9 +1,10 @@
 ---
 title: 北京大学肖臻老师《区块链技术与应用》公开课笔记(三)：BTC数据结构篇
 categories: 区块链
-tags:
-- 区块链
-- BTC
+data: 2023-01-03  11:22:33
+tags: 
+  - 区块链
+  - BTC
 ---
 
 ## Hash pointer（哈希指针）
