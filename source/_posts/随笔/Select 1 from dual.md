@@ -1,7 +1,7 @@
 ---
 title: Select 1 from dual
 categories: 随笔
-tags：
+tags:
   - orcal
   - 数据库
 ---
