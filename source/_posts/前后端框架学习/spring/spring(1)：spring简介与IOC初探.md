@@ -1,7 +1,7 @@
 ---
 title: spring(一)：spring简介与IOC初探
 categories: 前后端框架学习
-data: 2022-12-06  08:39:50
+date: 2022-12-06  08:39:50
 tags: 
 - spring
 - 框架 

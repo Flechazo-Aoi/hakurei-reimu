@@ -1,7 +1,7 @@
 ---
 title: springMVC(二)：第一个springMVC程序
 categories: 前后端框架学习
-data: 2022-12-15  15:22:33
+date: 2022-12-15  15:22:33
 tags: 
 - springMVC
 - 框架 

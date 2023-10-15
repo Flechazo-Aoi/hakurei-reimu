@@ -1,7 +1,7 @@
 ---
 title: spring(二)：第一个hello world程序
 categories: 前后端框架学习
-data: 2022-12-06  11:22:33
+date: 2022-12-06  11:22:33
 tags: 
 - spring
 - 框架 

@@ -1,7 +1,7 @@
 ---
 title: springboot学习(一):第一个项目以及原理浅析
 categories: 前后端框架学习
-data: 2022-12-21  11:22:33
+date: 2022-12-21  11:22:33
 tags: 
 - springboot
 - 框架

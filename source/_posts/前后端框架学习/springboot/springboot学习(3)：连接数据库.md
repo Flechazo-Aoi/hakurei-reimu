@@ -1,7 +1,7 @@
 ---
 title: springboot学习(三):连接数据库
 categories: 前后端框架学习
-data: 2022-12-22  11:22:33
+date: 2022-12-22  11:22:33
 tags: 
 - springboot
 - 框架

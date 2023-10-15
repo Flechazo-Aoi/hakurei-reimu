@@ -1,7 +1,7 @@
 ---
 title: spring(八)：proxy
 categories: 前后端框架学习
-data: 2022-12-09  11:22:33
+date: 2022-12-09  11:22:33
 tags: 
 - spring
 - 框架 

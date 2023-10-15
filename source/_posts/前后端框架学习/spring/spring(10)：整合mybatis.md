@@ -1,7 +1,7 @@
 ---
 title: spring(十)：整合mybatis
 categories: 前后端框架学习
-data: 2022-12-10  11:22:33
+date: 2022-12-10  11:22:33
 tags: 
 - spring
 - 框架 
