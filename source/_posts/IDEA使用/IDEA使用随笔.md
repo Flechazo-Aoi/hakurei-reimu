@@ -1,7 +1,8 @@
 ---
 title: IDEA使用随笔
 categories: IDEA使用
-tags:
+date: 2023-09-06  15:22:33
+tags: 
 - IDEA
 - 随笔
 ---

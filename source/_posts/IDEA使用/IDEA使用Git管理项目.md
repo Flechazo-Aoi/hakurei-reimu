@@ -1,9 +1,11 @@
 ---
 title: IDEA使用Git管理项目
-date: 2022-11-15 22:21:43
+date: 2022-12-28 20:21:43
 categories: IDEA使用
-tags:
+tags: 
 - IDEA
+- git
+- 中间件与工具
 ---
 
 ### 下载git
