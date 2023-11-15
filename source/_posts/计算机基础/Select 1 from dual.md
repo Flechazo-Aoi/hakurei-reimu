@@ -3,7 +3,7 @@ title: Select 1 from dual
 categories: 计算机基础
 date: 2023-09-25 17:22:33
 tags: 
-  - orcle
+  - oracle
   - 数据库
 ---
 
