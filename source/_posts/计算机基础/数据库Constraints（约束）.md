@@ -99,3 +99,13 @@ ALTER TABLE Persons
 DROP CONSTRAINT uc_Person_ID;
 ```
 
+### PRIMARY KEY (主键) 约束
+
+- PRIMARY KEY约束 唯一标识数据库表中的每条记录。
+- 主键必须包含唯一的值。
+- 主键列不能包含 NULL 值。
+- 每个表都有且只能有一个主键。
+
+```sql
+```
+
