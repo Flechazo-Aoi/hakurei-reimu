@@ -4,7 +4,7 @@ categories: java基础
 date: 2023-11-08 15:22:33
 tags: 
   - java
-  - Stream
+  - JDK1.8
 ---
 
 ## 传统集合的遍历
