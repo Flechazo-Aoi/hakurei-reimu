@@ -256,3 +256,138 @@ public String save(Person person){
 }
 ```
 
+## @RequestParam
+
+```java
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface RequestParam {
+ 
+    /**
+     * 参数名称（和value同等意思）
+     */
+    @AliasFor("name")
+    String value() default "";
+ 
+    /**
+     * 参数名称 (和name同等意思)
+     */
+    @AliasFor("value")
+    String name() default "";
+ 
+    /**
+     * 是否必选（默认必选）
+     */
+    boolean required() default true;
+ 
+    /**
+     * 参数默认值
+     */
+    String defaultValue() default ValueConstants.DEFAULT_NONE;
+ 
+}
+```
+
+### 参数：
+
+@RequestParam总体上来说，该注解类拥有三个:
+
+- value、name 属性都标识请求参数名（必须配置）;
+- required：参数是否必传，默认为 true，可以设置为非必传 false；（如果设置了必传或默认，请求未传递参数，将会抛出异常）;
+- defaultValue：参数默认值，如果设置了该值，required 将会自动设置为 false；
+
+#### 获取到的参数放在请求哪
+
+- get请求的 `requestHeaders` 中` content-type`这个字段，使用` form-data` 表单形式携带参数请求；
+- Spring中的@RequestParam注解接收的参数大多数场景是来自requestHeaders中，即请求头，也就是url中，格式为：`http://localhost:8080/?name=yc&age=23`，由于 url 长度有限制，所以参数需要限制数量和值的长度；
+
+### 请求示例
+
+#### 使用@RequestParam注解获取参数
+
+![1543609-20190711192147015-1896127085](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202312021459501.png)
+
+```java
+@RequestMapping(value = "/test", method = RequestMethod.GET)
+public void test(@RequestParam("id") Integer id,
+                 @RequestParam("name") String name,
+                 @RequestParam("age") Integer age) {
+    log.info("id = {}, name = {}, age = {}", id, name, age);  // id = 1, name = yc, age = 23
+}
+```
+
+#### 不使用@RequestParam注解直接进行对象属性赋值（不推荐使用，容易和@ReuqestBody混淆）
+
+```java
+@RequestMapping(value = "/test", method = RequestMethod.GET)
+public void test(User user) {
+    //  id = 1, name = yc, age = 23
+    log.info("id = {}, name = {}, age = {}", user.getId(), user.getName(), user.getAge());
+}
+```
+
+### 使用场景
+
+- 请求是为了查找资源，获取服务器数据；
+- 请求结果无持续性的副作用，例如：不会对数据库进行添加、修改、删除操作；
+- 传入的参数不会太长，因为Get请求可能会产生很长的URL，或许会超过某些浏览器与服务器对URL的长度限制，导致请求失败；
+
+## @RequestBody
+
+```java
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface RequestBody {
+ 
+    /**
+     * 默认参数必传
+     */
+    boolean required() default true;
+ 
+}
+```
+
+#### 参数
+
+@RequestBody注解只拥有一个参数:required 默认为 true，即对象中的属性必须有一个要传，否则会抛出异常
+
+### 获取到的参数放在请求哪
+
+- post请求的`requestHeaders`请求头中有`content-type`字段，一般用来处理：`applicatin/json`格式的参数；
+- Spring中的`@RequestBody`注解是用来接收请求体中的参数数据，即`requestBody`请求体中，故不受参数数据长度的限制；
+
+### 请求示例
+
+![1543609-20190711195647145-1083582365](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202312021507262.png)
+
+```java 
+@RequestMapping(value = "/test", method = RequestMethod.POST)
+public void test(@RequestBody User user) {
+    // id = 1, name = yc, age = 23
+    log.info("id = {}, name = {}, age = {}", user.getId(), user.getName(), user.getAge()); 
+}
+```
+
+### 使用场景
+
+- 请求的结果有持续性作用，例如：对数据库添加、更新、删除操作；
+- 若使用Get请求，表单参数过长；
+- 要传送的数据不是采用7位的ASCII编码；
+
+### 测试
+
+使用Post请求，@RequestParam也可以接收参数；
+
+注意：也可以使用这种方式用，发送Post请求，参数拼接到url之后，这是因为协议之间没有做严格的区分，但这种方式不建议使用，这种方式就使用Get方式即可。例如：`localhost:8888/optimus-prime/project/test?id=1&name=yc&age=23` 使用浏览器请求数据，这种方式Get请求，但后端使用Post方式接收，访问不成功！
+
+```java
+@PostMapping(value = "/test")
+public void test(@RequestParam("id") Integer id,
+                 @RequestParam("name") String name,
+                 @RequestParam("age") Integer age) {
+    log.info("id = {}, name = {}, age = {}", id, name, age); // id = 1, name = yc, age = 12
+}
+```
+
