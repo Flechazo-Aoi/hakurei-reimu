@@ -112,3 +112,78 @@ public T insert(BasicEntity entity) {
 - 根据xml中的selectName执行对应方法：`update(Map<String, Object> paraMap, String selectName)`
 - 直接执行sql语句的方法：`updateExecute(String updateSql)`
 
+# TapMyBatisDao
+
+## insert
+
+平台定义了唯一性校验功能，配置后，在插入操作前，会进行唯一性校验
+
+```java
+@Override
+protected void beforeInsert(BasicEntity entity) {
+	try {
+		super.beforeInsert(entity);
+		TapEntity tapEntity = (TapEntity) entity;
+        // 平台默认的会把新创建的实体enable置成1
+		tapEntity.setEnabled(1);
+        // 如果能得到用户信息，就赋值
+		if (this.getSessionUserBean() != null) {
+			tapEntity.setCreateuser(this.getSessionUserBean().getUser().getId());
+			tapEntity.setModifieduser(this.getSessionUserBean().getUser().getId());
+			tapEntity.setCreateorgid(this.getSessionUserBean().getOrg().getId());
+		}
+		// 唯一性校验
+		ICboUniqueControlDao cboUniqueControlDao = (ICboUniqueControlDao) SpringUtil.getBean("cboUniqueControlDao");
+		String tableName = ((TapEntity) this.getEntityClass().newInstance()).getTableName();
+		List<CboUniqueControlEntity> listUniqueControl = cboUniqueControlDao.queryByWhere(" controltable = '" + tableName + "' ");
+		this.checkFieldUnique(entity.convertToMap(), listUniqueControl);
+		// 数据操作日志记录
+		addTableLog(CboTableLogOperateTypeEnum.Insert, entity.convertToMap());
+	} catch (Exception ex) {
+		throw new DaoException(ex.getMessage());
+	}
+}
+```
+
+```java
+private void checkFieldUnique(Map<String, Object> map, List<CboUniqueControlEntity> listUniqueControl) {
+    // 没有校验，直接返回
+	if (listUniqueControl == null || listUniqueControl.size() <= 0) {
+		return;
+	}
+    // 有校验，就直接遍历
+	for (CboUniqueControlEntity uniqueControl : listUniqueControl) {
+        // 这里就要求配置时，用;隔开要校验的字段
+		String[] arraySplitfieldName = uniqueControl.getControlfield().split(";");
+		boolean isNotExists = false;
+        // 这里是判断有没有这个字段，如果有，就break
+		for (String splitfieldName : arraySplitfieldName) {
+			if (!map.keySet().contains(splitfieldName)) {
+				isNotExists = true;
+				break;
+			}
+		}
+		if (isNotExists) {
+			continue;
+		}
+        // 拼接条件就是，所有字段都相同，但是id不同，查出来数量大于1就抛异常
+		StringBufferProxy sql = new StringBufferProxy();
+		sql.appendSingle(" 1=1 ");
+		for (String splitfieldName : arraySplitfieldName) {
+			sql.appendSingle(" and {0}='{1}' ", splitfieldName, ConvertUtil.convertToString(map.get(splitfieldName)));
+		}
+		sql.appendSingle(" and id != '{0}' ", ConvertUtil.convertToString(map.get("id")));
+		if (!StringUtil.isEmpty(uniqueControl.getCondition())) {
+			sql.appendSingle(uniqueControl.getCondition());
+		}
+		int count = this.getCount(sql.toString());
+		if (count > 0) {
+			throw new DaoException(uniqueControl.getTipmsg());
+		}
+	}
+}
+```
+
+在这里进行配置，可以指定数据库和字段名
+
+![1714359849955](https://hanser373.oss-cn-beijing.aliyuncs.com/img/202404291104612.png)
